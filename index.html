@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PanaSur Xpress | Calculadora de Envíos</title>
-  <link rel="stylesheet" href="style.css">
+  <title>PanaSur Express | Tu puente financiero</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <header>
-    <h1>PanaSur <span>Xpress</span></h1>
-    <p>Envíos entre Costa Rica, Colombia y Venezuela</p>
+    <!-- Aquí va tu logo. Si tienes el archivo de imagen, guárdalo en la misma carpeta con el nombre logo.png -->
+    <img src="logo.png" alt="PanaSur Express Logo" class="logo">
+    <h1>PanaSur <span>Express</span></h1>
+    <p>Tu puente financiero</p>
   </header>
 
   <main>
@@ -19,12 +21,12 @@
 
       <label for="ruta">Ruta:</label>
       <select id="ruta">
-        <option value="CRC_VES">Costa Rica → Venezuela</option>
-        <option value="VES_CRC">Venezuela → Costa Rica</option>
-        <option value="COP_VES">Colombia → Venezuela</option>
-        <option value="VES_COP">Venezuela → Colombia</option>
-        <option value="CRC_COP">Costa Rica → Colombia</option>
-        <option value="COP_CRC">Colombia → Costa Rica</option>
+        <option value="CRC_VES">Costa Rica (CRC) → Venezuela (VES)</option>
+        <option value="VES_CRC">Venezuela (VES) → Costa Rica (CRC)</option>
+        <option value="CRC_COP">Costa Rica (CRC) → Colombia (COP)</option>
+        <option value="COP_CRC">Colombia (COP) → Costa Rica (CRC)</option>
+        <option value="COP_VES">Colombia (COP) → Venezuela (VES)</option>
+        <option value="VES_COP">Venezuela (VES) → Colombia (COP)</option>
       </select>
 
       <label for="monto">Monto a enviar:</label>
@@ -33,7 +35,7 @@
       <div class="resultado">
         <p>Tasa del día: <strong id="tasa">—</strong></p>
         <p>Recibe: <strong id="resultado">—</strong></p>
-        <p class="fecha">Actualizado: <span id="fecha">—</span></p>
+        <p class="fecha">Tasas sujetas a cambios</p>
       </div>
 
       <a id="whatsapp" class="btn-whatsapp" href="#" target="_blank">
@@ -43,7 +45,7 @@
   </main>
 
   <footer>
-    <p>© PanaSur Xpress · Darwin Caruci · +506 6478 4402</p>
+    <p>© PanaSur Express · Darwin Caruci · +506 6478 4402</p>
   </footer>
 
   <script src="app.js"></script>

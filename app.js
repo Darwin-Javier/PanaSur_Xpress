@@ -1,27 +1,25 @@
-const WHATSAPP_NUM = "50664784402"; // sin + ni espacios
-let tasas = {};
+const WHATSAPP_NUM = "50664784402"; // Tu número sin + ni espacios
 
-// Cargar tasas desde JSON
-fetch('tasas.json')
-  .then(res => {
-    if (!res.ok) throw new Error(`No se pudo cargar tasas.json (${res.status})`);
-    return res.json();
-  })
-  .then(data => {
-    if (!data || typeof data.tasas !== 'object') {
-      throw new Error('El archivo de tasas tiene un formato inválido');
-    }
-    tasas = data.tasas;
-    document.getElementById('fecha').textContent = data.actualizado || '—';
-    calcular();
-  })
-  .catch(err => {
-    console.error("Error cargando tasas:", err);
-    tasaEl.textContent = "No disponible";
-    resultadoEl.textContent = "—";
-  });
+// TUS TASAS REALES
+const tasas = {
+  "CRC_VES": 960,
+  "VES_CRC": 350.40,
+  "CRC_COP": 3.159,
+  "COP_CRC": 350.40,
+  "COP_VES": 960,
+  "VES_COP": 2.869
+};
 
-// Elementos
+// Nombres de las monedas para mostrar en el resultado
+const monedas = {
+  "CRC_VES": { entrada: "CRC", salida: "VES" },
+  "VES_CRC": { entrada: "VES", salida: "CRC" },
+  "CRC_COP": { entrada: "CRC", salida: "COP" },
+  "COP_CRC": { entrada: "COP", salida: "CRC" },
+  "COP_VES": { entrada: "COP", salida: "VES" },
+  "VES_COP": { entrada: "VES", salida: "COP" }
+};
+
 const rutaEl = document.getElementById('ruta');
 const montoEl = document.getElementById('monto');
 const tasaEl = document.getElementById('tasa');
@@ -30,32 +28,20 @@ const whatsappBtn = document.getElementById('whatsapp');
 
 function calcular() {
   const ruta = rutaEl.value;
-  const monto = Number.parseFloat(montoEl.value);
-  const montoValido = Number.isFinite(monto) && monto >= 0;
+  const monto = parseFloat(montoEl.value) || 0;
   const tasa = tasas[ruta];
+  const moneda = monedas[ruta];
 
-  if (!montoValido) {
-    tasaEl.textContent = tasa ? `1 = ${tasa}` : "—";
-    resultadoEl.textContent = "—";
-    whatsappBtn.removeAttribute('href');
-    return;
-  }
-
-  if (!tasa || !Number.isFinite(tasa) || tasa <= 0) {
-    tasaEl.textContent = "—";
-    resultadoEl.textContent = "—";
-    whatsappBtn.removeAttribute('href');
-    return;
-  }
-
-  tasaEl.textContent = `1 = ${tasa}`;
+  // Mostrar la tasa del día
+  tasaEl.textContent = `1 ${moneda.entrada} = ${tasa} ${moneda.salida}`;
+  
+  // Calcular y mostrar el resultado
   const resultado = monto * tasa;
-  resultadoEl.textContent = resultado.toLocaleString('es-CR', { maximumFractionDigits: 2 });
+  resultadoEl.textContent = `${resultado.toLocaleString('es-CR', { maximumFractionDigits: 2 })} ${moneda.salida}`;
 
-  // Actualizar WhatsApp con contexto
-  const nombreRuta = rutaEl.options[rutaEl.selectedIndex].text;
+  // Actualizar el botón de WhatsApp
   const mensaje = encodeURIComponent(
-    `Hola PanaSur Xpress, quiero enviar por la ruta ${nombreRuta} un monto de ${monto}. Según su web recibiría ${resultado.toFixed(2)}.`
+    `Hola PanaSur Express (Darwin), acabo de calcular en la web. Quiero enviar por la ruta ${ruta.replace('_',' a ')} un monto de ${monto} ${moneda.entrada}. Según la página, recibiría ${resultado.toFixed(2)} ${moneda.salida}.`
   );
   whatsappBtn.href = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
 }
