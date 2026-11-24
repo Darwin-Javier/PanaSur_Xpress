@@ -5,43 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PanaSur Express | Tu puente financiero</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Agregamos FontAwesome para los iconos de monedas si quieres luego, pero usaremos texto simple por ahora -->
+  <!-- Importamos una fuente moderna de Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
+  <div class="background-grid"></div> <!-- Efecto de fondo futurista -->
+
   <header>
-    <img src="logo.png" alt="PanaSur Express Logo" class="logo">
+    <div class="logo-container">
+      <!-- Asegúrate de que tu logo se llame logo.png -->
+      <img src="logo.png" alt="PanaSur Express Logo" class="logo">
+    </div>
     <h1>PanaSur <span>Express</span></h1>
-    <p>Tu puente financiero</p>
+    <p class="slogan">Tu puente financiero</p>
   </header>
 
   <main>
     <section class="calculadora">
+      
+      <div class="status-badge">
+        <span class="dot"></span> Tasas del día activas
+      </div>
+
       <h2>Calcula tu envío</h2>
 
-      <label for="ruta">Ruta:</label>
-      <select id="ruta">
-        <option value="CRC_VES">Costa Rica (₡) → Venezuela (Bs.)</option>
-        <option value="VES_CRC">Venezuela (Bs.) → Costa Rica (₡)</option>
-        <option value="CRC_COP">Costa Rica (₡) → Colombia ($)</option>
-        <option value="COP_CRC">Colombia ($) → Costa Rica (₡)</option>
-        <option value="COP_VES">Colombia ($) → Venezuela (Bs.)</option>
-        <option value="VES_COP">Venezuela (Bs.) → Colombia ($)</option>
-      </select>
+      <div class="input-group">
+        <label for="ruta">Ruta de envío:</label>
+        <select id="ruta">
+          <option value="CRC_VES">Costa Rica (₡) → Venezuela (Bs.)</option>
+          <option value="VES_CRC">Venezuela (Bs.) → Costa Rica (₡)</option>
+          <option value="CRC_COP">Costa Rica (₡) → Colombia ($)</option>
+          <option value="COP_CRC">Colombia ($) → Costa Rica (₡)</option>
+          <option value="COP_VES">Colombia ($) → Venezuela (Bs.)</option>
+          <option value="VES_COP">Venezuela (Bs.) → Colombia ($)</option>
+        </select>
+      </div>
 
-      <!-- Aquí agregamos un span para mostrar la moneda dinámicamente -->
-      <label for="monto">Monto a enviar (<span id="moneda-entrada-label">CRC</span>):</label>
-      <input type="number" id="monto" placeholder="Ej: 50000" min="0">
+      <div class="input-group">
+        <label for="monto">Monto a enviar (<span id="moneda-entrada-label">CRC</span>):</label>
+        <input type="number" id="monto" placeholder="0.00" min="0">
+        
+        <!-- Botones rápidos -->
+        <div class="quick-amounts">
+          <button class="btn-quick" data-amount="1000">+1.000</button>
+          <button class="btn-quick" data-amount="5000">+5.000</button>
+          <button class="btn-quick" data-amount="10000">+10.000</button>
+          <button class="btn-quick" data-amount="50000">+50.000</button>
+        </div>
+      </div>
 
-      <div class="resultado">
-        <p>Tasa del día: <strong id="tasa">—</strong></p>
-        <p>Recibe: <strong id="resultado">—</strong></p>
-        <p class="fecha">Tasas sujetas a cambios</p>
+      <div class="resultado-card">
+        <div class="tasa-info">
+          <p>Tasa actual:</p>
+          <strong id="tasa">—</strong>
+        </div>
+        
+        <div class="total-info">
+          <p>El cliente recibe:</p>
+          <div class="total-row">
+            <h3 id="resultado">—</h3>
+            <button id="btn-copiar" title="Copiar resultado">📋</button>
+          </div>
+        </div>
       </div>
 
       <a id="whatsapp" class="btn-whatsapp" href="#" target="_blank">
-        📲 Contactar por WhatsApp
+        <span>📲</span> Contactar por WhatsApp
       </a>
+
+      <p class="aviso">Tasas sujetas a cambios sin previo aviso.</p>
     </section>
   </main>
 
@@ -49,63 +82,6 @@
     <p>© PanaSur Express · Darwin Caruci · +506 6478 4402</p>
   </footer>
 
-  <script>
-    const WHATSAPP_NUM = "50664784402"; 
-
-    // TUS TASAS
-    const tasas = {
-      "CRC_VES": 960,
-      "VES_CRC": 350.40,
-      "CRC_COP": 3.159,
-      "COP_CRC": 350.40,
-      "COP_VES": 960,
-      "VES_COP": 2.869
-    };
-
-    // AGREGAMOS LOS SÍMBOLOS Y NOMBRES AQUÍ
-    const monedas = {
-      "CRC_VES": { entrada: "₡", salida: "Bs.", nombreEntrada: "CRC", nombreSalida: "VES" },
-      "VES_CRC": { entrada: "Bs.", salida: "₡", nombreEntrada: "VES", nombreSalida: "CRC" },
-      "CRC_COP": { entrada: "₡", salida: "$", nombreEntrada: "CRC", nombreSalida: "COP" },
-      "COP_CRC": { entrada: "$", salida: "₡", nombreEntrada: "COP", nombreSalida: "CRC" },
-      "COP_VES": { entrada: "$", salida: "Bs.", nombreEntrada: "COP", nombreSalida: "VES" },
-      "VES_COP": { entrada: "Bs.", salida: "$", nombreEntrada: "VES", nombreSalida: "COP" }
-    };
-
-    const rutaEl = document.getElementById('ruta');
-    const montoEl = document.getElementById('monto');
-    const tasaEl = document.getElementById('tasa');
-    const resultadoEl = document.getElementById('resultado');
-    const whatsappBtn = document.getElementById('whatsapp');
-    const labelMoneda = document.getElementById('moneda-entrada-label'); // Nuevo elemento
-
-    function calcular() {
-      const ruta = rutaEl.value;
-      const monto = parseFloat(montoEl.value) || 0;
-      const tasa = tasas[ruta];
-      const moneda = monedas[ruta];
-
-      // Actualizar el texto del label para que diga la moneda de entrada
-      labelMoneda.textContent = moneda.nombreEntrada;
-
-      // Mostrar la tasa con símbolos
-      tasaEl.textContent = `${moneda.entrada}1 = ${tasa} ${moneda.salida}`;
-      
-      // Calcular y mostrar el resultado con el símbolo de la moneda de salida
-      const resultado = monto * tasa;
-      resultadoEl.textContent = `${moneda.salida} ${resultado.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
-      // Actualizar el botón de WhatsApp
-      const mensaje = encodeURIComponent(
-        `Hola PanaSur Express (Darwin), quiero enviar por la ruta ${ruta.replace('_',' a ')} un monto de ${moneda.entrada}${monto}. Según la web, recibiría ${moneda.salida}${resultado.toFixed(2)}.`
-      );
-      whatsappBtn.href = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
-    }
-
-    rutaEl.addEventListener('change', calcular);
-    montoEl.addEventListener('input', calcular);
-    
-    calcular(); // Ejecutar al cargar
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

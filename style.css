@@ -1,29 +1,74 @@
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+/* --- VARIABLES DE DISEÑO --- */
+:root {
+  --bg-color: #060913; /* Negro azulado profundo */
+  --card-bg: rgba(16, 24, 40, 0.6);
+  --border-color: rgba(212, 175, 55, 0.3); /* Borde Dorado tenue */
+  --gold: #d4af37;
+  --gold-glow: rgba(212, 175, 55, 0.2);
+  --text-main: #f0f4f8;
+  --text-muted: #94a3b8;
+  --whatsapp: #25d366;
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  font-family: 'Inter', sans-serif; 
+}
 
 body {
-  background: linear-gradient(135deg, #0a192f, #112240, #1a365d); /* Azul oscuro corporativo */
-  color: #fff;
+  background-color: var(--bg-color);
+  color: var(--text-main);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Efecto de cuadrícula futurista de fondo */
+.background-grid {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
 }
 
 header {
   text-align: center;
-  padding: 30px 20px 10px;
+  padding: 40px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-container {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  padding: 5px;
+  background: linear-gradient(135deg, var(--gold), transparent);
+  box-shadow: 0 0 30px var(--gold-glow);
 }
 
 .logo {
-  width: 120px;
-  height: auto;
-  margin-bottom: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  background-color: #000; /* Fondo por si el logo es transparente */
 }
 
-header h1 { font-size: 2rem; letter-spacing: 1px; }
-header h1 span { color: #d4af37; } /* Dorado corporativo */
-header p { color: #a8b2c1; margin-top: 5px; font-size: 1.1rem; font-style: italic; }
+header h1 { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.5px; }
+header h1 span { color: var(--gold); }
+.slogan { color: var(--text-muted); font-size: 1rem; margin-top: 5px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase;}
 
 main {
   flex: 1;
@@ -31,60 +76,157 @@ main {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  z-index: 1;
 }
 
 .calculadora {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(212, 175, 55, 0.3); /* Borde dorado sutil */
-  backdrop-filter: blur(10px);
-  padding: 30px;
-  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 35px;
+  border-radius: 24px;
   width: 100%;
-  max-width: 450px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  max-width: 460px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+  position: relative;
 }
 
-.calculadora h2 { margin-bottom: 20px; text-align: center; color: #d4af37; }
+.status-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(16, 24, 40, 0.9);
+  border: 1px solid var(--border-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-label { display: block; margin-top: 15px; margin-bottom: 6px; font-size: 0.9rem; color: #ccc; }
+.dot {
+  width: 8px; height: 8px;
+  background-color: var(--whatsapp);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--whatsapp);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+.calculadora h2 { margin-bottom: 25px; text-align: center; font-weight: 600; font-size: 1.5rem; }
+
+.input-group { margin-bottom: 20px; }
+
+label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px;}
 
 select, input {
   width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
-  color: #fff;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.4);
+  color: var(--text-main);
   font-size: 1rem;
   outline: none;
+  transition: all 0.3s ease;
 }
-select option { color: #000; }
-select:focus, input:focus { border-color: #d4af37; }
 
-.resultado {
-  margin-top: 20px;
+select:focus, input:focus { 
+  border-color: var(--gold); 
+  box-shadow: 0 0 0 3px var(--gold-glow);
+  background: rgba(0,0,0,0.6);
+}
+
+select option { background-color: var(--bg-color); color: var(--text-main); }
+
+/* Botones rápidos */
+.quick-amounts {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-quick {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-muted);
+  padding: 8px 0;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-quick:hover {
+  background: var(--gold-glow);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* Tarjeta de resultado */
+.resultado-card {
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.02));
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
   padding: 20px;
-  background: rgba(212, 175, 55, 0.1);
-  border-left: 4px solid #d4af37;
-  border-radius: 8px;
-}
-.resultado p { margin: 6px 0; font-size: 0.95rem; color: #ccc; }
-.resultado strong { color: #d4af37; font-size: 1.3rem; display: block; margin-top: 4px;}
-.fecha { font-size: 0.75rem; color: #888; margin-top: 10px; font-style: italic;}
-
-.btn-whatsapp {
-  display: block;
-  text-align: center;
   margin-top: 25px;
-  padding: 15px;
-  background: #25d366;
-  color: #000;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: 0.2s;
-  font-size: 1.1rem;
 }
-.btn-whatsapp:hover { background: #1ebe5b; transform: scale(1.02); box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
 
-footer { text-align: center; padding: 20px; color: #666; font-size: 0.8rem; }
+.tasa-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.1); }
+.tasa-info p { font-size: 0.9rem; color: var(--text-muted); }
+.tasa-info strong { color: var(--gold); font-size: 1.1rem; }
+
+.total-info p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+.total-row { display: flex; justify-content: space-between; align-items: center; }
+.total-row h3 { font-size: 2rem; color: var(--gold); font-weight: 800; letter-spacing: -0.5px; }
+
+#btn-copiar {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: 0.2s;
+}
+#btn-copiar:hover { opacity: 1; transform: scale(1.1); }
+
+/* Botón de WhatsApp */
+.btn-whatsapp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 25px;
+  padding: 16px;
+  background: var(--whatsapp);
+  color: #000;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.btn-whatsapp:hover { 
+  background: #1ebe5b; 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+}
+
+.aviso { text-align: center; font-size: 0.7rem; color: #64748b; margin-top: 15px; font-style: italic; }
+
+footer { text-align: center; padding: 30px 20px; color: #475569; font-size: 0.8rem; }
