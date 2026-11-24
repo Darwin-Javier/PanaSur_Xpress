@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PanaSur Express | Tu puente financiero</title>
-  <link rel="stylesheet" href="styles.css">
+  <!-- Corregido el nombre a style.css -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <!-- Aquí va tu logo. Si tienes el archivo de imagen, guárdalo en la misma carpeta con el nombre logo.png -->
+    <!-- Asegúrate de que el archivo se llame logo.png y esté en esta misma carpeta -->
     <img src="logo.png" alt="PanaSur Express Logo" class="logo">
     <h1>PanaSur <span>Express</span></h1>
     <p>Tu puente financiero</p>
@@ -48,6 +49,56 @@
     <p>© PanaSur Express · Darwin Caruci · +506 6478 4402</p>
   </footer>
 
-  <script src="app.js"></script>
+  <!-- AQUÍ ESTÁ EL JAVASCRIPT INTEGRADO -->
+  <script>
+    const WHATSAPP_NUM = "50664784402"; 
+
+    const tasas = {
+      "CRC_VES": 960,
+      "VES_CRC": 350.40,
+      "CRC_COP": 3.159,
+      "COP_CRC": 350.40,
+      "COP_VES": 960,
+      "VES_COP": 2.869
+    };
+
+    const monedas = {
+      "CRC_VES": { entrada: "CRC", salida: "VES" },
+      "VES_CRC": { entrada: "VES", salida: "CRC" },
+      "CRC_COP": { entrada: "CRC", salida: "COP" },
+      "COP_CRC": { entrada: "COP", salida: "CRC" },
+      "COP_VES": { entrada: "COP", salida: "VES" },
+      "VES_COP": { entrada: "VES", salida: "COP" }
+    };
+
+    const rutaEl = document.getElementById('ruta');
+    const montoEl = document.getElementById('monto');
+    const tasaEl = document.getElementById('tasa');
+    const resultadoEl = document.getElementById('resultado');
+    const whatsappBtn = document.getElementById('whatsapp');
+
+    function calcular() {
+      const ruta = rutaEl.value;
+      const monto = parseFloat(montoEl.value) || 0;
+      const tasa = tasas[ruta];
+      const moneda = monedas[ruta];
+
+      tasaEl.textContent = `1 ${moneda.entrada} = ${tasa} ${moneda.salida}`;
+      
+      const resultado = monto * tasa;
+      resultadoEl.textContent = `${resultado.toLocaleString('es-CR', { maximumFractionDigits: 2 })} ${moneda.salida}`;
+
+      const mensaje = encodeURIComponent(
+        `Hola PanaSur Express (Darwin), acabo de calcular en la web. Quiero enviar por la ruta ${ruta.replace('_',' a ')} un monto de ${monto} ${moneda.entrada}. Según la página, recibiría ${resultado.toFixed(2)} ${moneda.salida}.`
+      );
+      whatsappBtn.href = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
+    }
+
+    rutaEl.addEventListener('change', calcular);
+    montoEl.addEventListener('input', calcular);
+    
+    // Ejecutar una vez al cargar para mostrar la tasa inicial
+    calcular();
+  </script>
 </body>
 </html>
