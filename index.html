@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PanaSur Xpress | Calculadora de Envíos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>PanaSur <span>Xpress</span></h1>
+    <p>Envíos entre Costa Rica, Colombia y Venezuela</p>
+  </header>
+
+  <main>
+    <section class="calculadora">
+      <h2>Calcula tu envío</h2>
+
+      <label for="ruta">Ruta:</label>
+      <select id="ruta">
+        <option value="CRC_VES">Costa Rica → Venezuela</option>
+        <option value="VES_CRC">Venezuela → Costa Rica</option>
+        <option value="COP_VES">Colombia → Venezuela</option>
+        <option value="VES_COP">Venezuela → Colombia</option>
+        <option value="CRC_COP">Costa Rica → Colombia</option>
+        <option value="COP_CRC">Colombia → Costa Rica</option>
+      </select>
+
+      <label for="monto">Monto a enviar:</label>
+      <input type="number" id="monto" placeholder="Ej: 50000" min="0">
+
+      <div class="resultado">
+        <p>Tasa del día: <strong id="tasa">—</strong></p>
+        <p>Recibe: <strong id="resultado">—</strong></p>
+        <p class="fecha">Actualizado: <span id="fecha">—</span></p>
+      </div>
+
+      <a id="whatsapp" class="btn-whatsapp" href="#" target="_blank">
+        📲 Contactar por WhatsApp
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© PanaSur Xpress · Darwin Caruci · +506 6478 4402</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
