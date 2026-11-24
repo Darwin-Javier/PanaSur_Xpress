@@ -25,7 +25,7 @@
     <section class="calculadora">
       
       <div class="status-badge">
-        <span class="dot"></span> Tasas del día activas
+        <span class="dot"></span> Tasa del día <span id="fecha-tasas"></span>
       </div>
 
       <h2>Calcula tu envío</h2>
@@ -35,10 +35,10 @@
         <select id="ruta">
           <option value="CRC_VES">Costa Rica (₡) → Venezuela (Bs.)</option>
           <option value="VES_CRC">Venezuela (Bs.) → Costa Rica (₡)</option>
-          <option value="CRC_COP">Costa Rica (₡) → Colombia ($)</option>
-          <option value="COP_CRC">Colombia ($) → Costa Rica (₡)</option>
-          <option value="COP_VES">Colombia ($) → Venezuela (Bs.)</option>
-          <option value="VES_COP">Venezuela (Bs.) → Colombia ($)</option>
+          <option value="CRC_COP">Costa Rica (₡) → Colombia (COP)</option>
+          <option value="COP_CRC">Colombia (COP) → Costa Rica (₡)</option>
+          <option value="COP_VES">Colombia (COP) → Venezuela (Bs.)</option>
+          <option value="VES_COP">Venezuela (Bs.) → Colombia (COP)</option>
         </select>
       </div>
 
@@ -70,18 +70,19 @@
         </div>
       </div>
 
-      <a id="whatsapp" class="btn-whatsapp" href="#" target="_blank">
+      <a id="whatsapp" class="btn-whatsapp" aria-disabled="true" target="_blank" rel="noopener noreferrer">
         <span>📲</span> Contactar por WhatsApp
       </a>
 
-      <p class="aviso">Tasas sujetas a cambios sin previo aviso.</p>
+      <p class="aviso">Tasa sujeta a cambios.</p>
     </section>
   </main>
 
   <footer>
-    <p>© PanaSur Express · Darwin Caruci · +506 6478 4402</p>
+    <p>© PanaSur Express · </p>
   </footer>
 
+  <script src="tasas.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
