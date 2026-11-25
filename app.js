@@ -1,6 +1,6 @@
 const WHATSAPP_NUM = "50664784402"; 
 
-// CONFIGURACIÓN INTERNA (Monto / dolarOrigen) * tasaVenta
+// Configuración interna: (Monto / dolarOrigen) * tasaVenta
 const config = {
   "CRC_VES": { dolarOrigen: 444.69, tasaVenta: 960.00, simboloEntrada: "₡", simboloSalida: "Bs.", nombreEntrada: "CRC", nombreSalida: "VES" },
   "VES_CRC": { dolarOrigen: 45.00,  tasaVenta: 343.40, simboloEntrada: "Bs.", simboloSalida: "₡", nombreEntrada: "VES", nombreSalida: "CRC" },
@@ -20,7 +20,7 @@ const btnCopiar = document.getElementById('btn-copiar');
 const btnsQuick = document.querySelectorAll('.btn-quick');
 const fechaEl = document.getElementById('fecha-actualizacion');
 
-// Poner la fecha de hoy automáticamente
+// Fecha de hoy automática
 const hoy = new Date();
 fechaEl.textContent = `${hoy.getDate().toString().padStart(2, '0')}/${(hoy.getMonth() + 1).toString().padStart(2, '0')}/${hoy.getFullYear()}`;
 
@@ -55,13 +55,13 @@ function calcular(animar = true) {
   const monto = parseFloat(montoEl.value) || 0;
   const conf = config[ruta];
 
-  // Cálculo interno (Dólares)
+  // Lógica de cálculo interno (usando dólar)
   const dolaresEquivalentes = monto / conf.dolarOrigen;
   const resultadoFinal = dolaresEquivalentes * conf.tasaVenta;
 
   labelMoneda.textContent = conf.nombreEntrada;
   
-  // MOSTRAR LA TASA EN REFERENCIA AL DÓLAR (Ej: $1 = 960 Bs.)
+  // Mostrar la tasa de referencia en dólares
   tasaEl.textContent = `$1 = ${conf.tasaVenta} ${conf.simboloSalida}`;
   
   if (animar) {
@@ -77,6 +77,7 @@ function calcular(animar = true) {
   whatsappBtn.href = `https://wa.me/${WHATSAPP_NUM}?text=${mensaje}`;
 }
 
+// Eventos
 rutaEl.addEventListener('change', () => calcular(false)); 
 montoEl.addEventListener('input', () => calcular(true));
 
@@ -97,4 +98,5 @@ btnCopiar.addEventListener('click', () => {
   });
 });
 
+// Ejecutar al cargar
 calcular(false);

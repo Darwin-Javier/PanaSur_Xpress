@@ -1,5 +1,5 @@
 :root {
-  --bg-base: #0a1128; /* Tu azul oscuro original */
+  --bg-base: #0a1128;
   --card-bg: rgba(16, 24, 40, 0.85);
   --border-glass: rgba(212, 175, 55, 0.3);
   --gold-primary: #d4af37;
@@ -27,12 +27,13 @@ header {
   align-items: center;
 }
 
-/* EL LOGO ARREGLADO: Sin recortes, tamaño completo y fondo transparente */
+/* LOGO CORREGIDO: Sin recortes, tamaño completo y sin bordes redondos */
 .logo {
   width: 180px;
   height: auto;
   margin-bottom: 15px;
-  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4)); /* Brillo elegante */
+  object-fit: contain; /* Asegura que la imagen se vea completa */
+  filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
 }
 
 header h1 { font-size: 2.2rem; letter-spacing: 1px; }

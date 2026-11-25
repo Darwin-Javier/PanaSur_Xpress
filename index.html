@@ -11,7 +11,7 @@
   <div class="background-grid"></div>
 
   <header>
-    <!-- Quitamos el marco redondo para que se vea el eslogan completo -->
+    <!-- Sin marcos ni bordes redondos para que el eslogan se vea completo -->
     <img src="logo.png" alt="PanaSur Express Logo" class="logo">
     <h1>PanaSur <span>Express</span></h1>
     <p class="slogan">Tu puente financiero</p>
@@ -19,8 +19,9 @@
 
   <main>
     <section class="calculadora">
+      <!-- Badge con fecha dinámica -->
       <div class="status-badge">
-        <span class="dot"></span> TASA DEL DÍA <span id="fecha-actualizacion">24/11/2026</span>
+        <span class="dot"></span> TASA DEL DÍA <span id="fecha-actualizacion">Cargando...</span>
       </div>
 
       <h2>Calcula tu envío</h2>
@@ -51,7 +52,7 @@
       <div class="resultado-card">
         <div class="tasa-info">
           <p>Tasa actual:</p>
-          <!-- Aquí mostraremos $1 = 960 Bs. -->
+          <!-- Aquí se mostrará, por ejemplo, $1 = 960 Bs. -->
           <strong id="tasa">—</strong>
         </div>
         
